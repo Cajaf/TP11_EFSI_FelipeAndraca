@@ -1,0 +1,18 @@
+.flag-placeholder {
+  width: min(420px, 80vw);
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card-alt);
+  color: var(--text-soft);
+}
+
+.flag-image {
+  width: min(420px, 80vw);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  box-shadow: var(--shadow);
+}

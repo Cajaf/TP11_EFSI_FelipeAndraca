@@ -1,10 +1,11 @@
 import { useGame } from '../../context/GameContext'
+import './Leaderboard.css'
 
 const Leaderboard = () => {
   const { score, players } = useGame()
 
   return (
-    <table>
+    <table className="leaderboard">
       <thead>
         <tr>
           <th>Jugador</th>

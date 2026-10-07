@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Flag from '../../components/Flag'
 import GuessForm from '../../components/GuessForm'
 import Leaderboard from '../../components/Leaderboard'
@@ -6,6 +8,8 @@ import Timer from '../../components/Timer'
 import { useGame } from '../../context/GameContext'
 
 const Home = () => {
+  const navigate = useNavigate()
+
   const {
     loading,
     error,
@@ -14,61 +18,77 @@ const Home = () => {
     totalRounds,
     gameFinished,
     lastRound,
-    restartGame,
   } = useGame()
 
+  useEffect(() => {
+    if (gameFinished) {
+      navigate('/game-over')
+    }
+  }, [gameFinished, navigate])
+
   if (loading) {
-    return <div>Cargando países...</div>
+    return (
+      <div className="app-shell">
+        <div className="page-card">
+          <p className="status-text">Cargando países...</p>
+        </div>
+      </div>
+    )
   }
 
   if (error) {
-    return <div>{error}</div>
-  }
-
-  if (gameFinished) {
     return (
-      <>
-        <h2>Juego terminado</h2>
-        <ScoreBoard />
-        <p>Completaste {totalRounds} banderas.</p>
-        <p>
-          Última bandera: {lastRound.countryName ?? 'No disponible'}
-        </p>
-        <p>
-          Resultado: {lastRound.result === 'correct' ? 'Correcto' : 'Incorrecto'}
-        </p>
-        <p>
-          Tu respuesta: {lastRound.guessedName ?? 'Sin respuesta'}
-        </p>
-        <button type="button" onClick={restartGame}>
-          Jugar otra vez
-        </button>
-      </>
+      <div className="app-shell">
+        <div className="page-card">
+          <p className="status-text">{error}</p>
+        </div>
+      </div>
     )
   }
 
   if (!currentCountry) {
-    return <div>No hay país disponible.</div>
+    return (
+      <div className="app-shell">
+        <div className="page-card">
+          <p className="status-text">No hay país disponible.</p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <>
-      <p>
-        Ronda {currentRound} / {totalRounds}
-      </p>
-      <ScoreBoard />
-      <Timer />
-      <Flag />
-      {lastRound.result && (
-        <p>
-          {lastRound.result === 'correct'
-            ? `¡Correcto! Era ${lastRound.countryName}.`
-            : `Incorrecto. Era ${lastRound.countryName}.`}
-        </p>
-      )}
-      <GuessForm />
-      <Leaderboard />
-    </>
+    <div className="app-shell">
+      <div className="game-layout">
+        <div className="game-header">
+          <div className="meta">
+            <span className="chip">
+              Ronda {currentRound} / {totalRounds}
+            </span>
+            <ScoreBoard />
+          </div>
+          <Timer />
+        </div>
+
+        <div className="flag-box">
+          <Flag />
+        </div>
+
+        {lastRound.result && (
+          <div
+            className={`result-message ${
+              lastRound.result === 'correct' ? 'success' : 'error'
+            }`}
+          >
+            {lastRound.result === 'correct'
+              ? `¡Correcto! Era ${lastRound.countryName}.`
+              : `Incorrecto. Era ${lastRound.countryName}.`}
+          </div>
+        )}
+
+        <GuessForm />
+        <Leaderboard />
+      </div>
+    </div>
   )
 }
 

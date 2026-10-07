@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useGame } from '../../context/GameContext'
+import './GuessForm.css'
 
 const GuessForm = () => {
   const { countries, guess } = useGame()
@@ -19,7 +20,7 @@ const GuessForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="guess-form" onSubmit={handleSubmit}>
       <input
         list="country-options"
         value={value}
@@ -31,7 +32,9 @@ const GuessForm = () => {
           <option key={country.name} value={country.name} />
         ))}
       </datalist>
-      <button type="submit">Adivinar</button>
+      <button type="submit" className="submit-button">
+        Adivinar
+      </button>
     </form>
   )
 }

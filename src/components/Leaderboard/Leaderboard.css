@@ -1,0 +1,26 @@
+.leaderboard {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.leaderboard th,
+.leaderboard td {
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.leaderboard th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+.leaderboard tr:last-child td {
+  border-bottom: none;
+}

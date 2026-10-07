@@ -1,0 +1,30 @@
+.guess-form {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.guess-form input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 0.9rem;
+  background: #fff;
+  color: var(--text);
+}
+
+.guess-form input:focus {
+  outline: 2px solid rgba(47, 111, 237, 0.2);
+  border-color: var(--primary);
+}
+
+.submit-button {
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1.2rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
