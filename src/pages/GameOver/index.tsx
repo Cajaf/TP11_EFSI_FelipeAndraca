@@ -29,12 +29,12 @@ const GameOver = () => {
             <strong>{totalRounds}</strong>
           </div>
           <div className="summary-item">
-            <span>Resultado</span>
-            <strong>{lastRound.result === 'correct' ? 'Correcto' : 'Incorrecto'}</strong>
+            <span>Última bandera</span>
+            <strong>{lastRound.countryName ?? 'No disponible'}</strong>
           </div>
           <div className="summary-item">
-            <span>Tu respuesta</span>
-            <strong>{lastRound.guessedName ?? 'Sin respuesta'}</strong>
+            <span>Resultado</span>
+            <strong>{lastRound.result === 'correct' ? 'Correcto' : 'Incorrecto'}</strong>
           </div>
         </div>
 
