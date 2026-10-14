@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 import { useGame } from '../../context/GameContext'
+import { useState } from 'react'
 
 const GameOver = () => {
   const navigate = useNavigate()
-  const { score, totalRounds, lastRound, restartGame } = useGame()
-
+  const { score, totalRounds, lastRound, restartGame, saveScore } = useGame()
+  const [name, setName] = useState('')
   const handlePlayAgain = () => {
     restartGame()
     navigate('/game')
@@ -37,7 +38,6 @@ const GameOver = () => {
             <strong>{lastRound.result === 'correct' ? 'Correcto' : 'Incorrecto'}</strong>
           </div>
         </div>
-
         <div className="page-card-actions">
           <button type="button" className="primary-button" onClick={handlePlayAgain}>
             Jugar otra vez
@@ -45,6 +45,13 @@ const GameOver = () => {
           <button type="button" className="secondary-button" onClick={handleBackToStart}>
             Volver al inicio
           </button>
+        </div>
+        <h2>Guardar puntaje</h2>
+        <div className="summary-list">
+          <input value={name} onChange={(e) => setName(e.target.value)} />
+        </div>
+        <div className="page-card-actions">
+          <button className="primary-button" onClick={()=> saveScore(name)}>Guardar</button>
         </div>
       </div>
     </div>

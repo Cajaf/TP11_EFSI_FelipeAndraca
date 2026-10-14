@@ -13,6 +13,11 @@ type Country = {
   flag: string
 }
 
+type Player = {
+  score: number
+  name: string
+}
+
 type RoundResult = {
   result: 'correct' | 'incorrect' | null
   countryName: string | null
@@ -24,7 +29,10 @@ type GameContextValue = {
   currentCountry: Country | null
   score: number
   roundTime: number
-  players: string[]
+  players: {
+    score: number
+    name: string
+  }
   loading: boolean
   error: string | null
   currentRound: number
@@ -35,6 +43,7 @@ type GameContextValue = {
   nextCountry: () => void
   resetScore: () => void
   restartGame: () => void
+  saveScore: (name: string) => void
 }
 
 const GameContext = createContext<GameContextValue | undefined>(undefined)
@@ -46,7 +55,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null)
   const [score, setScore] = useState(0)
   const [roundTime, setRoundTime] = useState(15)
-  const [players] = useState(['Jugador 1'])
+  const [players, setPlayer] = useState()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [currentRound, setCurrentRound] = useState(1)
@@ -161,6 +170,18 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     [currentCountry, gameFinished, processRound],
   )
 
+  const saveScore = useCallback(
+  (name: string) => {
+  const player: Player = {score, name}
+  try {
+    window.localStorage.setItem("contraseña", JSON.stringify(player))
+  } catch (e) {
+    console.error('No se pudo guardar en localStorage', e)
+  }
+  },
+    [score],
+  )
+
   useEffect(() => {
     const fetchCountries = async () => {
       try {
@@ -251,6 +272,7 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
       nextCountry,
       resetScore,
       restartGame,
+      saveScore,
     }),
     [countries, currentCountry, score, roundTime, players, loading, error, currentRound, gameFinished, lastRound, guess, nextCountry, resetScore, restartGame],
   )

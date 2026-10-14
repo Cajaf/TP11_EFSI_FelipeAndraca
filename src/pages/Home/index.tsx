@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Flag from '../../components/Flag'
 import GuessForm from '../../components/GuessForm'
-import Leaderboard from '../../components/Leaderboard'
 import ScoreBoard from '../../components/ScoreBoard'
 import Timer from '../../components/Timer'
 import { useGame } from '../../context/GameContext'
@@ -86,7 +85,6 @@ const Home = () => {
         )}
 
         <GuessForm />
-        <Leaderboard />
       </div>
     </div>
   )
