@@ -1,16 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useGame, type Player } from '../../context/GameContext'
 import './Leaderboard.css'
 
 const Leaderboard = () => {
-  const players: Player[] = useGame().getScores()
+  const [players, setPlayers] = useState(useGame().getScores())
   useEffect(() => {
-    players.sort((a, b) => b.score - a.score)
+    setPlayers(players.sort((a, b) => b.score - a.score))
   }, [players])
 
-  const list ={
-    
-  }
   return (
     <table className="leaderboard">
       <thead>
