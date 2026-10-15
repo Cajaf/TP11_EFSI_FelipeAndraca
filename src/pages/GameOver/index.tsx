@@ -16,6 +16,11 @@ const GameOver = () => {
     navigate('/')
   }
 
+    const handleSaveScore = (name) => {
+    saveScore(name)
+    navigate('/')
+  }
+
   return (
     <div className="app-shell">
       <div className="page-card">
@@ -51,7 +56,7 @@ const GameOver = () => {
           <input value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div className="page-card-actions">
-          <button className="primary-button" onClick={()=> saveScore(name)}>Guardar</button>
+          <button className="primary-button" onClick={()=> handleSaveScore(name)}>Guardar</button>
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ type Country = {
   flag: string
 }
 
-type Player = {
+export type Player = {
   score: number
   name: string
 }
@@ -44,6 +44,7 @@ type GameContextValue = {
   resetScore: () => void
   restartGame: () => void
   saveScore: (name: string) => void
+  getScores: () => Player[]
 }
 
 const GameContext = createContext<GameContextValue | undefined>(undefined)
@@ -170,16 +171,37 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     [currentCountry, gameFinished, processRound],
   )
 
+
+
+const getScores = useCallback(() => {
+  try {
+    const stored = window.localStorage.getItem('contraseña')
+
+    if (!stored) {
+      return []
+    }
+
+    const parsed = JSON.parse(stored) as Player[]
+    return parsed
+  } catch (error) {
+    console.error('Error leyendo jugadores', error)
+    return []
+  }
+}, [])
+
   const saveScore = useCallback(
   (name: string) => {
   const player: Player = {score, name}
   try {
-    window.localStorage.setItem("contraseña", JSON.stringify(player))
+    let listPlayers = getScores();
+    
+    listPlayers.push(player)
+    window.localStorage.setItem("contraseña", JSON.stringify(listPlayers))
   } catch (e) {
     console.error('No se pudo guardar en localStorage', e)
   }
   },
-    [score],
+    [score,getScores],
   )
 
   useEffect(() => {
@@ -273,8 +295,9 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
       resetScore,
       restartGame,
       saveScore,
+      getScores,
     }),
-    [countries, currentCountry, score, roundTime, players, loading, error, currentRound, gameFinished, lastRound, guess, nextCountry, resetScore, restartGame],
+    [countries, currentCountry, score, roundTime, players, loading, error, currentRound, gameFinished, lastRound, guess, nextCountry, resetScore, restartGame, saveScore, getScores],
   )
 
   return <GameContext.Provider value={contextValue}>{children}</GameContext.Provider>

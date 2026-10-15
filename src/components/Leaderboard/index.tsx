@@ -1,27 +1,34 @@
-// import { useGame } from '../../context/GameContext'
-// import './Leaderboard.css'
+import { useEffect } from 'react'
+import { useGame, type Player } from '../../context/GameContext'
+import './Leaderboard.css'
 
-// const Leaderboard = () => {
-//   const {players } = useGame()
+const Leaderboard = () => {
+  const players: Player[] = useGame().getScores()
+  useEffect(() => {
+    players.sort((a, b) => b.score - a.score)
+  }, [players])
 
-//   return (
-//     <table className="leaderboard">
-//       <thead>
-//         <tr>
-//           <th>Jugador</th>
-//           <th>Puntaje</th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//         {players.map((player, index) => (
-//           <tr key={player + index}>
-//             <td>{player}</td>
-//             <td>{index === 0 ? score : 0}</td>
-//           </tr>
-//         ))}
-//       </tbody>
-//     </table>
-//   )
-// }
+  const list ={
+    
+  }
+  return (
+    <table className="leaderboard">
+      <thead>
+        <tr>
+          <th>Jugador</th>
+          <th>Puntaje</th>
+        </tr>
+      </thead>
+      <tbody>
+        {players.map((player, index) => (
+          <tr key={index}>
+            <td>{player.name}</td>
+            <td>{player.score}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
 
-// export default Leaderboard
+export default Leaderboard
